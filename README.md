@@ -1,7 +1,14 @@
-# VM Notes
+VirtualBox Vagrant Box with Ubuntu 14.04 LTS, MySQL 5.1 and Ruby Enterprise Edition 1.8.7
 
 ### Possible additional configurations:
 
-      config.vm.network "forwarded_port", guest: 80, host: 8080
-      config.vm.synced_folder "../data", "/vagrant_data"
+      Vagrant.configure(2) do |config|
+        config.vm.box_url = "https://github.com/spadin/old-mysql-and-ree/releases/download/v1.0.0/old-mysql-and-ree.box"
 
+        config.vm.provision "shell", :privilege: false, inline: <<-SHELL
+          cd /vagrant
+          bundle install
+          bundle exec rake db:create
+          RAILS_ENV=test bundle exec rake db:schema:load
+        SHELL
+      end
