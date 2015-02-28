@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
+    /vagrant/scripts/install_packages.sh
     /vagrant/scripts/install_mysql.sh
     /vagrant/scripts/install_ree.sh
   SHELL
